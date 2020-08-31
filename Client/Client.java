@@ -4,29 +4,49 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class Client {
+public class Client{
     
-    public static void main(String[] args) throws Exception{
-        Socket so = new Socket("127.0.0.1",8080);
-        InputStream is = so.getInputStream();
-        
-        OutputStream os = so.getOutputStream();
-        PrintWriter pw = new PrintWriter(os);
+    private Socket soc;
+    private InputStream is;
+    private OutputStream os;
+    private PrintWriter pw;
+    private Scanner sc;
 
-        //client info
-        Random r = new Random();
-        int cliNum = r.nextInt(100);
+    public Client(String address, int port) throws Exception{
+        this.soc = new Socket(address, port);
+        is = soc.getInputStream();
+        os = soc.getOutputStream();
+        sc = new Scanner(is);
+        pw = new PrintWriter(os);
+    }
 
-        for(int i = 0; i <= 100; i++){
-            String outputString = "Cli#" + cliNum + " Hello World : " + i;
-            pw.println(outputString);
-            pw.flush();
-            System.out.println("Sent" + outputString);
-            Thread.sleep(1000);
+    public Client(int port) throws Exception{
+        this("127.0.0.1",port);
+    }
+
+
+    public void write(String content){
+        pw.println(content);
+    }
+
+    public String read(){
+        String result = "NULL";
+        try {
+            while(!sc.hasNextLine()){
+                Thread.sleep(500);
+            }
+            result = sc.nextLine();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        return result;
+    }
+
+    public void close() throws Exception{
+        sc.close();
         pw.close();
         os.close();
         is.close();
-        so.close();
+        soc.close();
     }
 }
