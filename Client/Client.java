@@ -25,8 +25,10 @@ public class Client{
     }
 
 
-    public void write(String content){
+    public void write(String content) throws Exception{
         pw.println(content);
+        pw.flush();
+        os.flush();
     }
 
     public String read(){
