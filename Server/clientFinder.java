@@ -27,6 +27,17 @@ public class clientFinder implements Runnable{
                 isRunning = false;
                 e.printStackTrace();
             }
+            purge();
+        }
+    }
+
+    public void purge(){
+        for(clientHand cli: SocketList){
+            try {
+                cli.write("");
+            } catch (Exception e) {
+                SocketList.remove(cli);
+            }
         }
     }
 

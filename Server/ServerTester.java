@@ -7,12 +7,11 @@ public class ServerTester{
        Thread cft = new Thread(cf);
        cft.start();
        while(true){
-         try {
-            for(clientHand cli: cf.SocketList){
+         for(clientHand cli: cf.SocketList){   
+            try {
                System.out.println(cli.soc.getRemoteSocketAddress().toString() + " : " + cli.read());
+            } catch (Exception e) {
             }
-         } catch (Exception e) {
-            // ignore this cycle
          }
          Thread.sleep(100);
        }
