@@ -3,9 +3,12 @@ package Server;
 
 public class ServerTester{
    public static void main(String[] args) throws Exception{
-       clientFinder cf = new clientFinder(8080);
-       Thread cft = new Thread(cf);
-       cft.start();
+      // Prepare 
+      Server cf = new Server(8080);
+      Thread cft = new Thread(cf);
+      cft.start();
+
+       // Application
        while(true){
          for(clientHand cli: cf.SocketList){   
             try {

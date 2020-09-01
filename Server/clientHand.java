@@ -21,7 +21,7 @@ public class clientHand{
         this.s = new Scanner(is);
         this.pw = new PrintWriter(os);    
     }
-
+    
     public String read(){
         String result = s.nextLine();
         return result;

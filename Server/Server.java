@@ -1,18 +1,20 @@
 package Server;
 
-import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.net.*;
 
-public class clientFinder implements Runnable{
-    public LinkedList<clientHand> SocketList;
+public class Server implements Runnable{
+    public CopyOnWriteArrayList<clientHand> SocketList;
     private int port;
     public boolean found = false;
 
-    public clientFinder(int port){
+    public Server(int port){
         this.port = port;    
-        this.SocketList = new LinkedList<>();
+        this.SocketList = new CopyOnWriteArrayList<>();
     }
-
+    /**
+     * Start looking for client
+     */
     public void run(){
         boolean isRunning = true;
         while(isRunning){
@@ -30,7 +32,9 @@ public class clientFinder implements Runnable{
             purge();
         }
     }
-
+    /**
+     * Remove all invalid socket
+     */
     public void purge(){
         for(clientHand cli: SocketList){
             try {
