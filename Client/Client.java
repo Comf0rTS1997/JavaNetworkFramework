@@ -70,4 +70,18 @@ public class Client{
         is.close();
         soc.close();
     }
+
+    /**
+     * validate if the connection to server is still valid
+     * @return true if valid
+     */
+    public boolean validate(){
+        boolean result = true;
+        try {
+            write("");
+        } catch (Exception e) {
+            result = false;
+        }
+        return result;
+    }
 }

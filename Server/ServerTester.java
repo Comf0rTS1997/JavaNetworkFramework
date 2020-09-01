@@ -10,12 +10,12 @@ public class ServerTester{
 
        // Application
        while(true){
-         for(clientHand cli: cf.SocketList){   
+         for(clientHand cli: cf.getConnectionList()){   
             try {
                System.out.println(cli.soc.getRemoteSocketAddress().toString() + " : " + cli.read());
             } catch (Exception e) {
             }
-         }
+         } 
          Thread.sleep(100);
        }
     }

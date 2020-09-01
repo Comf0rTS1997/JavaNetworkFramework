@@ -4,14 +4,14 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.net.*;
 
 public class Server implements Runnable{
-    public CopyOnWriteArrayList<clientHand> SocketList;
+    private CopyOnWriteArrayList<clientHand> SocketList;
     private int port;
-    public boolean found = false;
 
     public Server(int port){
         this.port = port;    
         this.SocketList = new CopyOnWriteArrayList<>();
     }
+    
     /**
      * Start looking for client
      */
@@ -24,7 +24,6 @@ public class Server implements Runnable{
                 SocketList.add(currentClient);
                 ss.close();
                 currentClient.write("test");
-                found = true;
             } catch (Exception e) {
                 isRunning = false;
                 e.printStackTrace();
@@ -32,6 +31,7 @@ public class Server implements Runnable{
             purge();
         }
     }
+
     /**
      * Remove all invalid socket
      */
@@ -42,6 +42,27 @@ public class Server implements Runnable{
             } catch (Exception e) {
                 SocketList.remove(cli);
             }
+        }
+    }
+
+    /**
+     * Get a list of all connections
+     */
+    public CopyOnWriteArrayList<clientHand> getConnectionList(){
+        return this.SocketList;
+    }
+
+    /**
+     * close all connection to current server
+     * @throws Exception
+     */
+    public void stop() throws Exception{
+        for (clientHand cli: SocketList){
+            cli.s.close();
+            cli.pw.close();
+            cli.is.close();
+            cli.os.close();
+            cli.soc.close();
         }
     }
 
